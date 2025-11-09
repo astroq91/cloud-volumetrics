@@ -15,6 +15,9 @@ void GLAPIENTRY openglMessageCallback(GLenum source, GLenum type, GLuint id,
                                       const GLchar *message,
                                       const void *userParam) {
   std::println("OpenGL (id: {0}): {1}", id, message);
+  if (type == GL_DEBUG_TYPE_ERROR) {
+    exit(EXIT_FAILURE);
+  }
 }
 void glfwErrorCallback(int error, const char *desc) {
   std::println("GLFW error: {0}", desc);
@@ -100,8 +103,6 @@ int main() {
   std::string fragment_shader_src = load_file("shader.frag");
   auto fragment_shader_src_ptr = fragment_shader_src.c_str();
 
-  std::println("{0}", vertex_shader_src);
-
   GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);
   glShaderSource(vertex_shader, 1, &vertex_shader_src_ptr, NULL);
   glCompileShader(vertex_shader);
@@ -115,6 +116,10 @@ int main() {
   glAttachShader(program, vertex_shader);
   glAttachShader(program, fragment_shader);
   glLinkProgram(program);
+  glUseProgram(program);
+
+  /* Uniform setup */
+  GLuint u_viewport_size = glGetUniformLocation(program, "u_resolution");
 
   /* Main loop */
   while (!glfwWindowShouldClose(window)) {
@@ -123,10 +128,11 @@ int main() {
     glfwGetFramebufferSize(window, &width, &height);
     const float ratio = width / (float)height;
     glViewport(0, 0, width, height);
+    glUniform2f(u_viewport_size, static_cast<float>(width),
+                static_cast<float>(height));
 
     glClear(GL_COLOR_BUFFER_BIT);
     glClear(GL_COLOR_BUFFER_BIT);
-    glUseProgram(program);
     glBindVertexArray(vertex_array);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glfwSwapBuffers(window);
