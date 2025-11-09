@@ -1,5 +1,8 @@
 #include <array>
 #include <cstdint>
+#include <cstdlib>
+#include <fstream>
+#include <sstream>
 #define GLFW_INCLUDE_NONE
 #include "glad/glad.h"
 #include "linmath.h"
@@ -22,36 +25,32 @@ struct Vertex {
 };
 
 static const std::array<Vertex, 4> vertices{{
-    {{-0.5f, -0.5f}},
-    {{0.5f, -0.5f}},
-    {{0.5f, 0.5f}},
-    {{-0.5f, 0.5f}},
+    {{-1.0f, -1.0}},
+    {{1.0f, -1.0f}},
+    {{1.0f, 1.0f}},
+    {{-1.0f, 1.0f}},
 }};
 
 static const std::array<uint32_t, 6> indices{
     0, 1, 2, 0, 2, 3,
 };
 
-static const char *vertex_shader_src = R"(
-  #version 460 core
-  layout (location = 0) in vec2 pos;
-  void main() {
-    gl_Position = vec4(pos, 0.0, 1.0);
+std::string load_file(const std::string &path) {
+  std::ifstream file(path);
+  if (!file) {
+    std::println("ifstream");
+    exit(EXIT_FAILURE);
   }
-)";
-
-static const char *fragment_shader_src = R"(
-  #version 460 core
-  out vec4 FragColor;
-  void main() {
-    FragColor = vec4(1.0); 
-  }
-)";
+  std::stringstream buf;
+  buf << file.rdbuf();
+  file.close();
+  return buf.str();
+}
 
 int main() {
   if (!glfwInit()) {
     std::println("glfwInit()");
-    return 0;
+    exit(EXIT_FAILURE);
   }
 
   /* Window setup */
@@ -63,7 +62,7 @@ int main() {
       glfwCreateWindow(640, 480, "Volumes for days!", NULL, NULL);
   if (!window) {
     std::println("glfwCreateWindow()");
-    return 0;
+    exit(EXIT_FAILURE);
   }
 
   /* Context setup */
@@ -96,12 +95,19 @@ int main() {
   glEnableVertexAttribArray(0);
 
   /* Shader initialization */
+  std::string vertex_shader_src = load_file("shader.vert");
+  auto vertex_shader_src_ptr = vertex_shader_src.c_str();
+  std::string fragment_shader_src = load_file("shader.frag");
+  auto fragment_shader_src_ptr = fragment_shader_src.c_str();
+
+  std::println("{0}", vertex_shader_src);
+
   GLuint vertex_shader = glCreateShader(GL_VERTEX_SHADER);
-  glShaderSource(vertex_shader, 1, &vertex_shader_src, NULL);
+  glShaderSource(vertex_shader, 1, &vertex_shader_src_ptr, NULL);
   glCompileShader(vertex_shader);
 
   GLuint fragment_shader = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(fragment_shader, 1, &fragment_shader_src, NULL);
+  glShaderSource(fragment_shader, 1, &fragment_shader_src_ptr, NULL);
   glCompileShader(fragment_shader);
 
   /* Program creation */
@@ -112,6 +118,7 @@ int main() {
 
   /* Main loop */
   while (!glfwWindowShouldClose(window)) {
+    /* Set the viewport */
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
     const float ratio = width / (float)height;
