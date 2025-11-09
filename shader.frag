@@ -2,6 +2,7 @@
 out vec4 FragColor;
 
 uniform vec2 u_resolution;
+uniform vec3 u_camera_pos;
 
 #define MAX_STEPS 50
 #define MAX_DIST 100.0
@@ -36,8 +37,8 @@ void main() {
   vec2 uv = gl_FragCoord.xy/u_resolution.xy - vec2(0.5);
   FragColor = vec4(uv, 1.0, 1.0); 
 
-  vec3 ro = vec3(0.0, 0.0, 5.0);
-  vec3 rd = normalize(vec3(uv, -1.0));
+  vec3 ro = u_camera_pos;
+  vec3 rd = normalize(vec3(-uv.x, -uv.y, -1.0));
 
   float d = raymarch(ro, rd);
   vec3 p = ro + rd * d;

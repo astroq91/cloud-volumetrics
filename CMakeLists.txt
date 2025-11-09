@@ -9,10 +9,12 @@ if(POLICY CMP0072)
 endif()
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
+add_subdirectory("vendor/glm")
 
 add_executable(Clouds)
 target_sources(Clouds
   PRIVATE
+    src/main.cpp
     src/main.cpp
     vendor/glad/src/glad.c
 )
@@ -20,12 +22,17 @@ target_sources(Clouds
 target_include_directories(Clouds
   PRIVATE
     vendor/glad/include
-    vendor/linmath
 )
 
 target_link_libraries(Clouds
   PRIVATE
     glfw
     OpenGL
+    glm
+)
+
+target_compile_definitions(Clouds 
+  PRIVATE
+    GLM_ENABLE_EXPERIMENTAL=1
 )
 

@@ -5,8 +5,9 @@
 #include <sstream>
 #define GLFW_INCLUDE_NONE
 #include "glad/glad.h"
-#include "linmath.h"
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <print>
 #include <string>
 
@@ -24,7 +25,7 @@ void glfwErrorCallback(int error, const char *desc) {
 }
 
 struct Vertex {
-  vec2 pos;
+  glm::vec2 pos;
 };
 
 static const std::array<Vertex, 4> vertices{{
@@ -120,6 +121,9 @@ int main() {
 
   /* Uniform setup */
   GLuint u_viewport_size = glGetUniformLocation(program, "u_resolution");
+  GLuint u_camera_pos = glGetUniformLocation(program, "u_camera_pos");
+
+  glm::vec3 camera_pos = glm::vec3(0.0, 0.0, 5.0);
 
   /* Main loop */
   while (!glfwWindowShouldClose(window)) {
@@ -131,7 +135,9 @@ int main() {
     glUniform2f(u_viewport_size, static_cast<float>(width),
                 static_cast<float>(height));
 
-    glClear(GL_COLOR_BUFFER_BIT);
+    glUniform3f(u_camera_pos, camera_pos.x, camera_pos.y, camera_pos.z);
+
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
     glBindVertexArray(vertex_array);
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
