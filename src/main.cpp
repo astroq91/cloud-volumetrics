@@ -1,3 +1,4 @@
+#include "glm/ext/matrix_transform.hpp"
 #include <array>
 #include <cstdint>
 #include <cstdlib>
@@ -122,11 +123,19 @@ int main() {
   /* Uniform setup */
   GLuint u_viewport_size = glGetUniformLocation(program, "u_resolution");
   GLuint u_camera_pos = glGetUniformLocation(program, "u_camera_pos");
+  GLuint u_camera_rot = glGetUniformLocation(program, "u_camera_rot");
 
-  glm::vec3 camera_pos = glm::vec3(0.0, 0.0, 5.0);
-
+  float theta = 0.0f;
+  const float r = 5.0f;
+  glm::vec3 camera_pos = glm::vec3(0.0, 0.0, r);
   /* Main loop */
   while (!glfwWindowShouldClose(window)) {
+    camera_pos.x = glm::sin(theta) * r;
+    camera_pos.z = glm::cos(theta) * r;
+    auto view =
+        glm::lookAt(camera_pos, glm::vec3(0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    glm::mat3 camera_rot = glm::transpose(glm::mat3(view));
+
     /* Set the viewport */
     int width, height;
     glfwGetFramebufferSize(window, &width, &height);
@@ -136,6 +145,7 @@ int main() {
                 static_cast<float>(height));
 
     glUniform3f(u_camera_pos, camera_pos.x, camera_pos.y, camera_pos.z);
+    glUniformMatrix3fv(u_camera_rot, 1, GL_FALSE, glm::value_ptr(camera_rot));
 
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
@@ -143,6 +153,7 @@ int main() {
     glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
     glfwSwapBuffers(window);
     glfwPollEvents();
+    theta += 0.01f;
   }
 
   glfwDestroyWindow(window);
