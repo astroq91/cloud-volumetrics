@@ -1,0 +1,1 @@
+/usr/bin/c++ -rdynamic -Wl,--dependency-file=CMakeFiles/Clouds.dir/link.d CMakeFiles/Clouds.dir/src/main.cpp.o CMakeFiles/Clouds.dir/vendor/glad/src/glad.c.o -o Clouds  vendor/imgui/libImGui.a /usr/lib64/libglfw.so.3.4 -lOpenGL

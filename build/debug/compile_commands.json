@@ -1,0 +1,14 @@
+[
+{
+  "directory": "/home/astro/dev/c++/clouds/build/debug",
+  "command": "/usr/bin/c++ -I/home/astro/dev/c++/clouds/vendor/glad/include -I/home/astro/dev/c++/clouds/vendor/linmath -g -std=gnu++23 -o CMakeFiles/Clouds.dir/src/main.cpp.o -c /home/astro/dev/c++/clouds/src/main.cpp",
+  "file": "/home/astro/dev/c++/clouds/src/main.cpp",
+  "output": "CMakeFiles/Clouds.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/astro/dev/c++/clouds/build/debug",
+  "command": "/usr/bin/cc -I/home/astro/dev/c++/clouds/vendor/glad/include -I/home/astro/dev/c++/clouds/vendor/linmath -g -o CMakeFiles/Clouds.dir/vendor/glad/src/glad.c.o -c /home/astro/dev/c++/clouds/vendor/glad/src/glad.c",
+  "file": "/home/astro/dev/c++/clouds/vendor/glad/src/glad.c",
+  "output": "CMakeFiles/Clouds.dir/vendor/glad/src/glad.c.o"
+}
+]
