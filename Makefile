@@ -14,3 +14,5 @@ release:
 	cmake --preset release 
 	cmake --build build/release
 
+clean:
+	rm -rf build
