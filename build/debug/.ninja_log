@@ -1,9 +1,0 @@
-# ninja log v6
-2	2358	1762719552521021782	vendor/glm/glm/CMakeFiles/glm.dir/detail/glm.cpp.o	f7871fa2323d7c1
-3	1716	1762726592921369049	CMakeFiles/Clouds.dir/src/main.cpp.o	625422f6d45b9a63
-1716	1782	1762726594634375213	Clouds	b0ba220e45bd7772
-3	105	1762722980049226703	CMakeFiles/Clouds.dir/vendor/glad/src/glad.c.o	e61f783c1f0dd189
-3	85	1762719584839283773	vendor/glm/glm/libglm.a	412329be223b1536
-4	1175	1762725005611585473	CMakeFiles/Clouds.dir/src/camera_controller.cpp.o	f0d160b8b47f093d
-3	1721	1762726764528986664	CMakeFiles/Clouds.dir/src/main.cpp.o	625422f6d45b9a63
-1721	1788	1762726766246992848	Clouds	b0ba220e45bd7772
