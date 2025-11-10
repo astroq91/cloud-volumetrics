@@ -1,6 +1,0 @@
-/home/astro/dev/c++/clouds/CMakeFiles/Clouds.dir
-/home/astro/dev/c++/clouds/CMakeFiles/edit_cache.dir
-/home/astro/dev/c++/clouds/CMakeFiles/rebuild_cache.dir
-/home/astro/dev/c++/clouds/vendor/imgui/CMakeFiles/ImGui.dir
-/home/astro/dev/c++/clouds/vendor/imgui/CMakeFiles/edit_cache.dir
-/home/astro/dev/c++/clouds/vendor/imgui/CMakeFiles/rebuild_cache.dir
